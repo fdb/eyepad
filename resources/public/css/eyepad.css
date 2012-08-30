@@ -1,0 +1,21 @@
+#wrapper {
+	margin: 0 auto;
+	width: 960px;
+}
+
+#code,.CodeMirror {
+	background: #efefef;
+	border-radius: 2px;
+	width: 49%;
+	float: left;
+}
+
+#result {
+	width: 49%;
+	float: right;
+}
+
+.clear {
+	border: none;
+	clear: both;
+}

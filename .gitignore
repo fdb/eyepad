@@ -1,0 +1,8 @@
+pom.xml
+.DS_Store
+*jar
+/lib/
+/classes/
+.lein-deps-sum
+.cake
+target
