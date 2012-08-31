@@ -13,10 +13,11 @@
     "mongodb://127.0.0.1:27017/eyepad"))
 
 (def mongo-conn (make-connection mongo-url))
+(set-connection! mongo-conn)
+
 (create-collection! :snaphots)
 (create-collection! :blobs)
 (add-index! :blobs [:sha] :unique true)
-(set-connection! mongo-conn)
 
 ;;;; ID Generation ;;;;
 
