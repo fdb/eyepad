@@ -26,7 +26,7 @@
 (defn generate-unique-id []
   "Generate a unique, random page ID."
   (let [random-seq (repeatedly #(rand-nth valid-id-chars))]
-    (apply str (take 7 random-seq))))
+    (apply str (take 5 random-seq))))
 
 ;;;; Pages ;;;;
 
