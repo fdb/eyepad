@@ -30,10 +30,10 @@
 
 ;;;; Pages ;;;;
 
-(defpartial layout [& content]
+(defpartial layout [title & content]
   (html5
     [:head
-      [:title "eyepad"]
+      [:title title]
       (include-css "/css/normalize.css")
       (include-css "/css/eyepad.css")
       (include-css "/codemirror/codemirror.css")
@@ -42,13 +42,21 @@
       (include-js "/js/jquery-1.8.0.min.js")
       (include-js "/js/eyepad.js")]
     [:body
-      [:div#wrapper
-        content]]))
+      [:header#site-header
+        [:div.container
+          [:a {:href "/"} [:h1 title]]
+          [:nav
+            [:a.button {:href "/new"} "Add New Pad"]]]]
+      [:div#content
+        [:div.container
+          content]]]))
 
 (defpage "/" []
-  (layout
-    [:h1 "Eyepad" [:small "A Clojure playground."]]
-    [:a.button {:href "/new" } "Create new"]))
+  (layout "EyePad"
+    [:header#page-header
+      [:h1 "A playground for visual code."]
+      [:p "Program in Clojure and EyePad will interpret and visualize the output."]]
+    [:a.button {:href "/new" } "Add New Pad"]))
 
 (def initial-code "(+ 40 2)")
 
@@ -60,8 +68,7 @@
 (defpage "/:id" {:keys [id]}
   (let [code (load-latest-code id)]
 
-  (layout
-    [:h1 (str "Page " id)]
+  (layout [:span "EyePad" [:small id]]
     [:textarea#code (or code initial-code)]
     [:div#result]
     [:hr.clear]
