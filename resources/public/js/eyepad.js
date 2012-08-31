@@ -1,9 +1,11 @@
 eyepad = {};
 eyepad.currentCode = "";
 
-eyepad.init = function() {
+eyepad.init = function(padId) {
+	eyepad.padId = padId;
 	eyepad.codeMirror = CodeMirror.fromTextArea(document.getElementById('code'));
-	eyepad.codeMirror.getValue();
+	eyepad.currentCode = eyepad.codeMirror.getValue();
+	eyepad.evaluate(eyepad.currentCode);
 	setInterval(eyepad.check, 500);
 }
 
@@ -17,7 +19,7 @@ eyepad.check = function() {
 
 eyepad.evaluate = function(code) {
 	$.ajax({
-		url: '/eval',
+		url: '/eval/' + eyepad.padId,
 		data: {code: code},
 		type: 'POST',
 		success: function(data) {
@@ -26,6 +28,5 @@ eyepad.evaluate = function(code) {
 		error: function(err, status) {
 			$('#result').html('ERROR: ' + err + " stat " + status);
 		}
-	})
-	$.getJSON("/")
+	});
 }
