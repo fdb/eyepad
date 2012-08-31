@@ -6,3 +6,6 @@ pom.xml
 .lein-deps-sum
 .cake
 target
+.jline*
+.m2
+.lein
