@@ -67,9 +67,10 @@
 
 (defpage [:post "/eval/:id"] {:keys [id code]}
   (try
-    (let [result (str (load-string code))]
-      (when (not (= code initial-code))
-        (save-snapshot! id code))
+    (let [clean-code (.trim code)
+          result (str (load-string clean-code))]
+      (when (not (= clean-code initial-code))
+        (save-snapshot! id clean-code))
       result)
     (catch Exception e (str "Error: " (.getMessage e)))))
 
