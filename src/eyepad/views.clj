@@ -52,6 +52,11 @@
 
 (def initial-code "(+ 40 2)")
 
+(def prefix-code "(ns user
+  (:use [eyepad.graphics]
+        [eyepad.svg]))
+")
+
 (defpage "/:id" {:keys [id]}
   (let [code (load-latest-code id)]
 
@@ -68,7 +73,8 @@
 (defpage [:post "/eval/:id"] {:keys [id code]}
   (try
     (let [clean-code (.trim code)
-          result (str (load-string clean-code))]
+          prefixed-code (str prefix-code clean-code)
+          result (str (load-string prefixed-code))]
       (when (not (= clean-code initial-code))
         (save-snapshot! id clean-code))
       result)
