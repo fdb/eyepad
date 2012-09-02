@@ -46,7 +46,7 @@
         [:div.container
           [:a {:href "/"} [:h1 title]]
           [:nav
-            [:a.button {:href "/new"} "Add New Pad"]]]]
+            [:a.button {:href "/new"} "New Pad"]]]]
       [:div#content
         [:div.container
           content]]]))
@@ -56,7 +56,7 @@
     [:header#page-header
       [:h1 "A playground for visual code."]
       [:p "Program in Clojure and EyePad will interpret and visualize the output."]]
-    [:a.button {:href "/new" } "Add New Pad"]))
+    [:a.button {:href "/new" } "Create a New Pad"]))
 
 (def initial-code "(+ 40 2)")
 
