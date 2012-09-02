@@ -33,7 +33,7 @@
 (defpartial layout [title & content]
   (html5
     [:head
-      [:title title]
+      [:title "EyePad"]
       (include-css "/css/normalize.css")
       (include-css "/css/eyepad.css")
       (include-css "/codemirror/codemirror.css")
