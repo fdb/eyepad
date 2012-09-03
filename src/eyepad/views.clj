@@ -85,6 +85,6 @@
       (when (not (= clean-code initial-code))
         (save-snapshot! id clean-code))
       result)
-    (catch Exception e (str "Error: " (.getMessage e)))))
+    (catch Throwable t (str (.. t getClass getName) ": " (.getMessage t)))))
 
 
