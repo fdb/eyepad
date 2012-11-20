@@ -1,5 +1,4 @@
 (ns eyepad.svg
-  (:use [hiccup.core :only [html]])
   (:import [java.util Locale]))
 
 (defn- color-to-int [r g b]
@@ -44,4 +43,3 @@
       :d (format-commands path) 
       :fill (or (:fill style) "white") 
       :stroke (or (:stroke style) "black")}]))
-
