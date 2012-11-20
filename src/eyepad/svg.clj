@@ -2,6 +2,17 @@
   (:use [hiccup.core :only [html]])
   (:import [java.util Locale]))
 
+(defn- color-to-int [r g b]
+  "Convert RGB components (0-255) to an integer by bit-shifting."
+  (bit-or 
+    (bit-shift-left (bit-and r 0xFF) 16)
+    (bit-shift-left (bit-and g 0xFF) 8)
+    (bit-shift-left (bit-and b 0xFF) 0)))
+
+(defn format-color [r g b]
+  "Convert a color in RGB (0-255) format to a hexadecimal value, like '#123456'."
+  (format "#%06X" (color-to-int r g b)))
+
 (defn format-point [x y]
   ; The locale is important for using the correct floating-point separator.
   ; SVG only accepts ".".
