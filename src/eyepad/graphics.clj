@@ -8,24 +8,24 @@
   "Convert the angle from radians to degrees."
   (/ (* radians 180) Math/PI))
 
-(defn angle [[x0 y0] [x1 y1]]
+(defn angle [x0 y0 x1 y1]
   "Calculate the angle (in degrees) between two points."
   (to-degrees (Math/atan2 (- y1 y0) (- x1 x0))))
 
-(defn distance [[x0 y0] [x1 y1]]
+(defn distance [x0 y0 x1 y1]
   "Calculate the distance between two points."
   (Math/sqrt 
     (+
       (Math/pow (- x1 x0) 2)
       (Math/pow (- y1 y0) 2))))
 
-(defn coordinates [[x y] angle distance]
+(defn coordinates [x y angle distance]
   "Calculate coordinates based on a point and angle/distance."
   (let [ra (to-radians angle)]
     [(+ x (* (Math/cos ra) distance))
      (+ y (* (Math/sin ra) distance))]))
 
-(defn reflect [[x0 y0] [x1 y1] my-angle my-distance]
+(defn reflect [x0 y0 x1 y1 my-angle my-distance]
   "Reflect a point through another point."
   (let [a (+ my-angle (angle x0 y0 x1 y1))
         d (* my-distance (distance x0 y0 x1 y1))]
