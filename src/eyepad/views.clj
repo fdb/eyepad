@@ -3,7 +3,8 @@
         [noir.response :only [redirect]]
         [hiccup.page :only [include-css include-js html5]]
         [somnium.congomongo]
-        [eyepad.models]))
+        [eyepad.models]
+        [eyepad.visualize :only [visualize]]))
 
 ;;;; DB connection ;;;;
 
@@ -60,10 +61,13 @@
 
 (def initial-code "(+ 40 2)")
 
-(def prefix-code "(ns user
+(def code-imports "(ns user
   (:use [eyepad.graphics]
         [eyepad.svg]))
 ")
+
+(defn prefix-code [code]
+  (str code-imports code))
 
 (defpage "/:id" {:keys [id]}
   (let [code (load-latest-code id)]
@@ -77,14 +81,28 @@
 (defpage "/new" []
   (redirect (str "/" (generate-unique-id))))
 
-(defpage [:post "/eval/:id"] {:keys [id code]}
+;(defn build-result [status value output]
+;  "Build the evaluation result."
+;  (jsonify {:status status :value value :output output}))
+
+(defn format-error [t]
+  (str (.. t getClass getName) ": " (.getMessage t)))
+
+(defn evaluate-code [code]
+  "Evaluate the given code using Clojure load-string."
   (try
-    (let [clean-code (.trim code)
-          prefixed-code (str prefix-code clean-code)
-          result (str (load-string prefixed-code))]
-      (when (not (= clean-code initial-code))
-        (save-snapshot! id clean-code))
-      result)
-    (catch Throwable t (str (.. t getClass getName) ": " (.getMessage t)))))
+    (load-string code)
+    (catch Throwable t (format-error t))))
 
+(defn visualize-code [code]
+  "Evaluate the code, then visualize it."
+  (let [result (evaluate-code code)]
+        (visualize result)))
 
+(defpage [:post "/eval/:id"] {:keys [id code]}
+  (let [clean-code (.trim code)
+        prefixed-code (prefix-code code)
+        result (visualize-code prefixed-code)]
+    (when (not (= clean-code initial-code))
+      (save-snapshot! id clean-code))
+    result))
