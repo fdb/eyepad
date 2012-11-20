@@ -69,9 +69,8 @@
 (defn line-angle [[x0 y0 :as pos] angle distance]
   "Draw a line between a point and angle/distance."
   (let [[x1 y1] (coordinates pos angle distance)]
-    {:d [
-            [:moveto x0 y0]
-            [:lineto x1 y1]]}))
+    [[:moveto x0 y0] [:lineto x1 y1]]))
+
 
 (defn rect 
   "Create a path describing a rectangle."
@@ -79,10 +78,9 @@
   ([x0 y0 width height]
     (let [x1 (+ x0 width)
           y1 (+ y0 height)]
-      {:d
        [[:moveto x0 y0]
         [:lineto x1 y0]
         [:lineto x1 y1]
         [:lineto x0 y1]
-        [:close]]})))
+        [:close]])))
 
