@@ -35,7 +35,7 @@
   "Calculate the length of the line."
   (let [x (Math/pow (Math/abs (- x0 x1)) 2)
         y (Math/pow (Math/abs (- y0 y1)) 2)]
-    (Math/sqrt x y)))
+    (Math/sqrt (+ x y))))
 
 (defn line-point [t x0 y0 x1 y1]
   "Calculate location for position t on the line."
