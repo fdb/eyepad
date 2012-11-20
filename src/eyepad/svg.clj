@@ -45,5 +45,3 @@
       :fill (or (:fill style) "white") 
       :stroke (or (:stroke style) "black")}]))
 
-(defn draw-paths [paths]
-  (html [:svg (map format-path paths)]))
