@@ -66,9 +66,9 @@
     [x y]))
 
 
-(defn line-angle [[x0 y0 :as pos] angle distance]
+(defn line-angle [x0 y0 angle distance]
   "Draw a line between a point and angle/distance."
-  (let [[x1 y1] (coordinates pos angle distance)]
+  (let [[x1 y1] (coordinates x0 y0 angle distance)]
     [[:moveto x0 y0] [:lineto x1 y1]]))
 
 
