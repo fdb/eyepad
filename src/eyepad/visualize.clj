@@ -10,9 +10,9 @@
     (number? v) :number
     (string? v) :string
     (nil? v) :nil
-    (and (= 2 (count v)) (every? number? v)) :point
-    (and (= 3 (count v)) (every? number? v)) :color
-    (= (ffirst v) :moveto) :path
+    (and (vector? v) (= 2 (count v)) (every? number? v)) :point
+    (and (vector? v) (= 3 (count v)) (every? number? v)) :color
+    (and (vector? v) (vector? (first v)) (= (ffirst v) :moveto)) :path
     :else :value))
 
 (defn determine-type [v]

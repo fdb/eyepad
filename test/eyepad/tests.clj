@@ -60,3 +60,6 @@
   [nil nil]
   {:type :nil :cardinality :multiple})
 
+(deftermine determine-single-file
+  (java.io.File. "")
+  {:type :value :cardinality :single})
