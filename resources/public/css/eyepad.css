@@ -58,6 +58,11 @@ body {
 	float: right;
 }
 
+#result pre {
+  font-size: 12px;
+  margin: 0 0 3px 0;
+}
+
 a.button {
   display: inline-block;
   cursor: pointer;
