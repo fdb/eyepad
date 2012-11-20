@@ -1,6 +1,4 @@
 (ns eyepad.visualize
-  (:use [clojure.core.match :only [match]])
-  (:use [clojure.core.incubator :only [seqable?]])
   (:use [hiccup.core :only [html]])
   (:require [eyepad.svg :as svg]))
 
@@ -8,13 +6,13 @@
 ;; Type Matchers
 
 (defn- determine-real-type [v]
-  (match [v]
-    [[(x :guard number?) (y :guard number?)]] :point 
-    [[(r :guard number?) (g :guard number?) (b :guard number?)]] :color
-    [[[:moveto (x :guard number?) (y :guard number?)] & _]] :path
-    [_ :guard string?] :string
-    [_ :guard number?] :number
-    [nil] :nil
+  (cond 
+    (number? v) :number
+    (string? v) :string
+    (nil? v) :nil
+    (and (= 2 (count v)) (every? number? v)) :point
+    (and (= 3 (count v)) (every? number? v)) :color
+    (= (ffirst v) :moveto) :path
     :else :value))
 
 (defn determine-type [v]
