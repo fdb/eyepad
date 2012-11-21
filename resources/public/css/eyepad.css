@@ -63,6 +63,10 @@ body {
   margin: 0 0 3px 0;
 }
 
+#result svg {
+  width: 100%;
+}
+
 a.button {
   display: inline-block;
   cursor: pointer;
