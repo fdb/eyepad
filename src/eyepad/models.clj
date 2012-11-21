@@ -2,6 +2,23 @@
   (:use [somnium.congomongo])
   (:import [java.security MessageDigest]))
 
+;; =============================================================================
+;; Database connection
+
+(def mongo-url
+  (or
+    (System/getenv "MONGOHQ_URL")
+    "mongodb://127.0.0.1:27017/eyepad"))
+
+(defn mongo-connect! []
+  (set-connection! (make-connection mongo-url))
+  (create-collection! :snaphots)
+  (create-collection! :blobs)
+  (add-index! :blobs [:sha] :unique true))
+
+;; =============================================================================
+;; SHA Conversion
+
 (defn get-digest-bytes [s]
  (.digest (MessageDigest/getInstance "SHA") (.getBytes s "UTF-8")))
 
@@ -11,6 +28,9 @@
 (defn sha1-hex-digest [s]
   "Create a SHA-1 digest of the contents."
   (bytes-to-hex (get-digest-bytes s)))
+
+;; =============================================================================
+;; Persistence
 
 (defn save-snapshot! [id code]
   "Save a snapshot of the pad with the given ID."
@@ -27,6 +47,3 @@
   "Load the latest pad code."
   (if-let [snapshot (load-latest-snapshot id)]
     (:contents (fetch-one :blobs :where {:sha (:sha snapshot)}))))
-
-;(fetch-one )
-; (fetch-one :blobs :where {:sha "abcd"})

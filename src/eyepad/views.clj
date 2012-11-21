@@ -4,25 +4,9 @@
         [ring.util.response :only [redirect]]
         [ring.middleware.params :only [wrap-params]]
         [hiccup.page :only [include-css include-js html5]]
-        [somnium.congomongo]
         [eyepad.models]
         [eyepad.visualize :only [visualize]])
   (:require [compojure.route :as route]))
-
-;; =============================================================================
-;; Database connection
-
-(def mongo-url
-  (or
-    (System/getenv "MONGOHQ_URL")
-    "mongodb://127.0.0.1:27017/eyepad"))
-
-(def mongo-conn (make-connection mongo-url))
-(set-connection! mongo-conn)
-
-(create-collection! :snaphots)
-(create-collection! :blobs)
-(add-index! :blobs [:sha] :unique true)
 
 ;; =============================================================================
 ;; ID Generation
@@ -123,5 +107,6 @@
 (def app (wrap-params routes))
 
 (defn -main []
+  (mongo-connect!)
   (let [port (Integer/parseInt (get (System/getenv) "PORT" "8080"))]
     (run-jetty app {:port port})))
