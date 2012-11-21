@@ -25,8 +25,10 @@
 (def initial-code "(+ 40 2)")
 
 (def code-imports "(ns user
-  (:use [eyepad.graphics]
-        [eyepad.svg]))
+  (:refer-clojure :exclude [==])
+  (:use eyepad.graphics
+        eyepad.svg
+        clojure.core.logic))
 ")
 
 (defn prefix-code [code]
