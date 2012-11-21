@@ -65,6 +65,18 @@
         y (+ (* c1y mint) (* c2y t))]
     [x y]))
 
+(defn grid [cols rows x y w h]
+  "Create a sequence of points arranged in a grid.
+  cols - The number of columns.
+  rows - The number of rows.
+  x - The starting position of the first column.
+  y - The starting position of the first row.
+  w - The width of a column.
+  h - The height of a column."
+  (for [ix (range cols)
+        iy (range rows)]
+    [(+ (* ix w) x) (+ (* iy h) y)]))
+
 
 (defn line-angle [x0 y0 angle distance]
   "Draw a line between a point and angle/distance."
