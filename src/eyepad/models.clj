@@ -2,18 +2,6 @@
   (:use [somnium.congomongo])
   (:import [java.security MessageDigest]))
 
-(def mongo-url
-  (or
-    (System/getenv "MONGOHQ_URL")
-    "mongodb://127.0.0.1:27017/eyepad"))
-
-(def mongo-conn (make-connection mongo-url))
-(set-connection! mongo-conn)
-
-(create-collection! :snaphots)
-(create-collection! :blobs)
-(add-index! :blobs [:sha] :unique true)
-
 (defn get-digest-bytes [s]
  (.digest (MessageDigest/getInstance "SHA") (.getBytes s "UTF-8")))
 

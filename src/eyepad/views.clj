@@ -10,6 +10,21 @@
   (:require [compojure.route :as route]))
 
 ;; =============================================================================
+;; Database connection
+
+(def mongo-url
+  (or
+    (System/getenv "MONGOHQ_URL")
+    "mongodb://127.0.0.1:27017/eyepad"))
+
+(def mongo-conn (make-connection mongo-url))
+(set-connection! mongo-conn)
+
+(create-collection! :snaphots)
+(create-collection! :blobs)
+(add-index! :blobs [:sha] :unique true)
+
+;; =============================================================================
 ;; ID Generation
 
 (def valid-id-chars "abcdefghjkmnpqrstuvwxyz123456789")
