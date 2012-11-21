@@ -52,7 +52,7 @@
         [:div.container
           content]]]))
 
-(defpage "/" []
+(defpage "/" {}
   (layout "EyePad"
     [:header#page-header
       [:h1 "A playground for visual code."]
@@ -69,7 +69,7 @@
 (defn prefix-code [code]
   (str code-imports code))
 
-(defpage "/:id" {:keys [id]}
+(defpage "/:id" {:id id}
   (let [code (load-latest-code id)]
 
   (layout [:span "EyePad" [:small id]]
@@ -78,7 +78,7 @@
     [:hr.clear]
     [:script (format "eyepad.init(\"%s\");" id)])))
 
-(defpage "/new" []
+(defpage "/new" {}
   (redirect (str "/" (generate-unique-id))))
 
 ;(defn build-result [status value output]
@@ -99,7 +99,7 @@
   (let [result (evaluate-code code)]
         (visualize result)))
 
-(defpage [:post "/eval/:id"] {:keys [id code]}
+(defpage [:post "/eval/:id"] {:id id :code code}
   (let [clean-code (.trim code)
         prefixed-code (prefix-code code)
         result (visualize-code prefixed-code)]
