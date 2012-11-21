@@ -13,6 +13,7 @@
     (and (vector? v) (= 2 (count v)) (every? number? v)) :point
     (and (vector? v) (= 3 (count v)) (every? number? v)) :color
     (and (vector? v) (vector? (first v)) (= (ffirst v) :moveto)) :path
+    (and (vector? v) (= (first v) :text)) :text
     :else :value))
 
 (defn determine-type [v]
@@ -57,6 +58,9 @@
 (defn draw-paths [paths]
   [:svg (map svg/format-path paths)])
 
+(defn draw-texts [texts]
+  (apply vector :svg texts))
+
 (defn- draw-string [v]
   [:pre (str v)])
 
@@ -70,6 +74,7 @@
   {:point draw-points
    :color draw-colors
    :path draw-paths
+   :text draw-texts
    :string draw-strings
    :number draw-strings
    :nil draw-strings

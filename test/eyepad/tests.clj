@@ -35,6 +35,15 @@
    [[:moveto 100 100] [:lineto 200 200]]]
   {:type :path :cardinality :multiple})
 
+(deftermine determine-single-text
+  [:text {:x 10 :y 10} "hello"]
+  {:type :text :cardinality :single})
+
+(deftermine determine-multiple-texts
+  [[:text {:x 10 :y 10} "hello"]
+   [:text {:x 10 :y 50} "there"]]
+  {:type :text :cardinality :multiple})
+
 (deftermine determine-single-string
   "test"
   {:type :string :cardinality :single})

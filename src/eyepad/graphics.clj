@@ -84,3 +84,8 @@
         [:lineto x0 y1]
         [:close]])))
 
+(defn text
+  "Create a piece of text."
+  ([s x y] (text s {:x x :y y}))
+  ([s x y attrs] (text s (assoc attrs :x x :y y)))
+  ([s attrs] [:text attrs s]))
