@@ -1,5 +1,6 @@
 (ns eyepad.views
   (:use [compojure.core :only [defroutes GET POST]]
+        [ring.adapter.jetty :only [run-jetty]]
         [ring.util.response :only [redirect]]
         [ring.middleware.params :only [wrap-params]]
         [hiccup.page :only [include-css include-js html5]]
@@ -105,3 +106,7 @@
   (route/not-found "<h1>Page not found.</h1>"))
 
 (def app (wrap-params routes))
+
+(defn -main []
+  (let [port (Integer/parseInt (get (System/getenv) "PORT" "8080"))]
+    (run-jetty app {:port port})))
