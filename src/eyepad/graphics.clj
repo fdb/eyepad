@@ -73,8 +73,8 @@
   y - The starting position of the first row.
   w - The width of a column.
   h - The height of a column."
-  (for [ix (range cols)
-        iy (range rows)]
+  (for [iy (range rows)
+        ix (range cols)]
     [(+ (* ix w) x) (+ (* iy h) y)]))
 
 
