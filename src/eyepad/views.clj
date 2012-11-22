@@ -24,7 +24,8 @@
 
 (def initial-code "(+ 40 2)")
 
-(def code-imports "(ns user
+; I can't use the "user" namespace since :exclude doesn't work there.
+(def code-imports "(ns runner
   (:refer-clojure :exclude [==])
   (:use eyepad.graphics
         eyepad.svg
