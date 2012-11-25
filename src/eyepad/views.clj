@@ -57,8 +57,8 @@
     [:head
       [:title "EyePad"]
       (include-css "/css/normalize.css")
-      (include-css "/css/eyepad.css")
       (include-css "/codemirror/codemirror.css")
+      (include-css "/css/eyepad.css")
       (include-js "/codemirror/codemirror.js")
       (include-js "/codemirror/clojure.js")
       (include-js "/js/jquery-1.8.0.min.js")

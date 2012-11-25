@@ -3,7 +3,10 @@ eyepad.currentCode = "";
 
 eyepad.init = function(padId) {
 	eyepad.padId = padId;
-	eyepad.codeMirror = CodeMirror.fromTextArea(document.getElementById('code'));
+	eyepad.codeMirror = CodeMirror.fromTextArea(document.getElementById('code'), {
+		matchBrackets: true,
+		autofocus: true
+	});
 	eyepad.currentCode = eyepad.codeMirror.getValue();
 	eyepad.evaluate(eyepad.currentCode);
 	setInterval(eyepad.check, 500);
