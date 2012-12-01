@@ -1,5 +1,8 @@
 (ns eyepad.graphics)
 
+;; =============================================================================
+;; Utility Functions
+
 (defn to-radians [degrees]
   "Convert the angle from degrees to radians."
   (/ (* degrees Math/PI) 180))
@@ -77,6 +80,8 @@
         ix (range cols)]
     [(+ (* ix w) x) (+ (* iy h) y)]))
 
+;; =============================================================================
+;; Generators - Functions that create new shapes
 
 (defn line-angle [x0 y0 angle distance]
   "Draw a line between a point and angle/distance."
@@ -100,4 +105,5 @@
   "Create a piece of text."
   ([s x y] (text s {:x x :y y}))
   ([s x y attrs] (text s (assoc attrs :x x :y y)))
-  ([s attrs] [:text attrs s]))
+  ([s attrs] [:text attrs s]));; =============================================================================
+;; Filters - Functions that modify/transform existing shapes
