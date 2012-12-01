@@ -124,10 +124,6 @@
 ;; =============================================================================
 ;; Generators - Functions that create new shapes
 
-(defn line-angle [x0 y0 angle distance]
-  "Draw a line between a point and angle/distance."
-  (let [[x1 y1] (coordinates x0 y0 angle distance)]
-    [[:moveto x0 y0] [:lineto x1 y1]]))
 (defn line
   "Create a line between two points."
   ([[x1 y1] [x2 y2]] (line {:x1 x1 :y1 y1 :x2 x2 :y2 y2}))
@@ -156,5 +152,11 @@
   "Create a piece of text."
   ([s x y] (text s {:x x :y y}))
   ([s x y attrs] (text s (assoc attrs :x x :y y)))
-  ([s attrs] [:text attrs s]));; =============================================================================
+  ([s attrs] [:text attrs s]))
+
+(defn textpath
+  "Create a path containing the curves of text."
+  ([s x y] (textpath s {:x x :y y})))
+
+;; =============================================================================
 ;; Filters - Functions that modify/transform existing shapes
