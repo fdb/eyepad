@@ -68,6 +68,47 @@
         y (+ (* c1y mint) (* c2y t))]
     [x y]))
 
+(defn path-segments [p]
+  {:pre [(= (ffirst p) :moveto )]}
+  "Convert path commands to line / curve segments."
+  (loop [segments []
+         cmds p
+         moveto nil
+         prev nil]
+    (if-let [cmd (first cmds)]
+      (condp = (first cmd)
+        :moveto
+        (recur segments
+               (rest cmds)
+               (rest cmd)
+               (rest cmd))
+        :lineto
+        (recur (conj segments (flatten [:line prev (rest cmd)]))
+               (rest cmds)
+               moveto
+               (rest cmd))
+        :curveto
+        (recur (conj segments (flatten [:curve prev (rest cmd)]))
+               (rest cmds)
+               moveto
+               (rest cmd))
+        :close
+        (recur (conj segments (flatten [:line prev moveto]))
+               (rest cmds)
+               nil
+               nil))
+      segments)))
+
+(defn segment-lengths [p]
+  "Calculate the lengths of each path segment."
+  (let [segments (path-segments p)
+        length-fns {:line line-length :curve curve-length}]
+    (map (fn [seg] (apply (length-fns (first seg)) (rest seg))) segments)))
+
+(defn path-length [p]
+  "Calculate the total length of the path."
+  (reduce + (segment-lengths p)))
+
 (defn grid [cols rows x y w h]
   "Create a sequence of points arranged in a grid.
   cols - The number of columns.
@@ -87,7 +128,17 @@
   "Draw a line between a point and angle/distance."
   (let [[x1 y1] (coordinates x0 y0 angle distance)]
     [[:moveto x0 y0] [:lineto x1 y1]]))
+(defn line
+  "Create a line between two points."
+  ([[x1 y1] [x2 y2]] (line {:x1 x1 :y1 y1 :x2 x2 :y2 y2}))
+  ; attrs is a list here, so this won't work.
+  ([x1 y1 x2 y2 & [attrs]] (line (assoc (or attrs {}) :x1 x1 :y1 y1 :x2 x2 :y2 y2)))
+  ([attrs] [:line attrs]))
 
+(defn line-angle [x1 y1 angle distance]
+  "Create a line between a point and angle/distance."
+  (let [[x2 y2] (coordinates x1 y1 angle distance)]
+    (line x1 y1 x2 y2)))
 
 (defn rect 
   "Create a path describing a rectangle."

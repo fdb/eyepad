@@ -1,6 +1,20 @@
 (ns eyepad.tests
   (:use clojure.test)
+  (:use eyepad.graphics)
   (:use eyepad.visualize))
+
+;; =============================================================================
+;; Graphics
+
+(deftest test-path-segments
+         (let [p [[:moveto 10 20]
+                  [:lineto 30 40]
+                  [:lineto 50 60]
+                  [:close]]]
+           (is (= (path-segments p)
+                  [[:line 10 20 30 40]
+                   [:line 30 40 50 60]
+                   [:line 50 60 10 20]]))))
 
 ;; =============================================================================
 ;; Type Matching
