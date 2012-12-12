@@ -14,6 +14,7 @@
     (and (vector? v) (= 3 (count v)) (every? number? v)) :color
     (and (vector? v) (vector? (first v)) (= (ffirst v) :moveto)) :path
     (and (vector? v) (= (first v) :text)) :text
+    (and (vector? v) (= (first v) :line)) :line
     :else :value))
 
 (defn determine-type [v]
@@ -58,6 +59,9 @@
 (defn draw-paths [paths]
   [:svg (map svg/format-path paths)])
 
+(defn draw-lines [lines]
+  (apply vector :svg lines))
+
 (defn draw-texts [texts]
   (apply vector :svg texts))
 
@@ -73,6 +77,7 @@
 (def visualizers
   {:point draw-points
    :color draw-colors
+   :line draw-lines
    :path draw-paths
    :text draw-texts
    :string draw-strings
@@ -97,3 +102,5 @@
   (println (determine-type [[:moveto 0 0] [:lineto 100 100]]))
 
 )
+
+;  (println (determine-type [[:line {:x1 10 :y1 10 :x2 234 :y2 2134}]]))
