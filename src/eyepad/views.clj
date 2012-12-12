@@ -57,10 +57,8 @@
     [:head
       [:title "EyePad"]
       (include-css "/css/normalize.css")
-      (include-css "/codemirror/codemirror.css")
       (include-css "/css/eyepad.css")
-      (include-js "/codemirror/codemirror.js")
-      (include-js "/codemirror/clojure.js")
+      (include-js "/js/ace.js")
       (include-js "/js/jquery-1.8.0.min.js")
       (include-js "/js/eyepad.js")]
     [:body
@@ -86,7 +84,7 @@
 (defn pad-detail [id]
   (let [code (load-latest-code id)]
     (layout [:span "EyePad" [:small id]]
-      [:textarea#code (or code initial-code)]
+      [:div#code-wrap [:div#code (or code initial-code)]]
       [:div#result]
       [:hr.clear]
       [:script (format "eyepad.init(\"%s\");" id)])))
@@ -108,6 +106,10 @@
   (route/not-found "<h1>Page not found.</h1>"))
 
 (def app (wrap-params routes))
+
+;(mongo-connect!)
+;(def server (run-jetty #'app {:port 5555 :join? false}))
+;(.stop server)
 
 (defn -main []
   (mongo-connect!)
