@@ -127,14 +127,17 @@
 (defn line
   "Create a line between two points."
   ([[x1 y1] [x2 y2]] (line {:x1 x1 :y1 y1 :x2 x2 :y2 y2}))
-  ; attrs is a list here, so this won't work.
-  ([x1 y1 x2 y2 & [attrs]] (line (assoc (or attrs {}) :x1 x1 :y1 y1 :x2 x2 :y2 y2)))
-  ([attrs] [:line attrs]))
+  ([[x1 y1] [x2 y2] attrs] (line (assoc attrs :x1 x1 :y1 y1 :x2 x2 :y2 y2)))
+  ([x1 y1 x2 y2] (line {:x1 x1 :y1 y1 :x2 x2 :y2 y2}))
+  ([x1 y1 x2 y2 attrs] (line (assoc attrs :x1 x1 :y1 y1 :x2 x2 :y2 y2)))
+  ([attrs] [:line (into {:stroke-width 1 :stroke "black"} attrs)]))
 
-(defn line-angle [x1 y1 angle distance]
+(defn line-angle
   "Create a line between a point and angle/distance."
-  (let [[x2 y2] (coordinates x1 y1 angle distance)]
-    (line x1 y1 x2 y2)))
+  ([x1 y1 angle distance] (line-angle x1 y1 angle distance {}))
+  ([x1 y1 angle distance attrs]
+    (let [[x2 y2] (coordinates x1 y1 angle distance)]
+    	(line x1 y1 x2 y2 attrs))))
 
 (defn rect 
   "Create a path describing a rectangle."
